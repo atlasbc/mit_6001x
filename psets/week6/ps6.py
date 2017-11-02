@@ -102,34 +102,22 @@ class Message(object):
         Returns: a dictionary mapping a letter (string) to 
                  another letter (string). 
         '''
-        #Maybe you can map every letters to a list of letters.
         self.shift_dict = {}
         lowercase = string.ascii_lowercase
         uppercase = string.ascii_uppercase
         
-        #add lowercase letters
+        #add lowercase
         for letter in lowercase:
-            count = 0
             i = lowercase.find(letter)
-            low_list = []
-            while count <= 25: 
-                low_list.append(lowercase[i])
-                count += 1
-                i = (i + 1) % 26                
-            self.shift_dict[letter] = low_list
-        #add uppercase letters    
+            self.shift_dict[letter] = lowercase[(i + shift)%26]
+            i = (i + 1) % 26    
+        #add uppercase    
         for letter in uppercase:
-            count = 0
             i = uppercase.find(letter)
-            up_list = []
-            while count <= 25: 
-                up_list.append(uppercase[i])
-                count += 1
-                i = (i + 1) % 26                
-                self.shift_dict[letter] = up_list   
+            self.shift_dict[letter] = uppercase[(i + shift)%26]
+            i = (i + 1) % 26  
             
-            
-        return self.shift_dict
+        return self.shift_dict  
 
     def apply_shift(self, shift):
         '''
@@ -143,7 +131,9 @@ class Message(object):
         Returns: the message text (string) in which every character is shifted
              down the alphabet by the input shift
         '''
-        pass #delete this line and replace with your code here
+        
+        pass
+        
 
 class PlaintextMessage(Message):
     def __init__(self, text, shift):
@@ -234,7 +224,10 @@ class CiphertextMessage(Message):
         '''
         pass #delete this line and replace with your code here
 
-print(Message.build_shift_dict(2))
+#Example test case (Message)
+hello = Message('hello')
+hello.build_shift_dict(2)
+print(hello.apply_shift(2))    
 
 #Example test case (PlaintextMessage)
 plaintext = PlaintextMessage('hello', 2)
