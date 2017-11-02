@@ -132,7 +132,16 @@ class Message(object):
              down the alphabet by the input shift
         '''
         
-        pass
+        ciphered_text = ""
+        self.build_shift_dict(shift)
+        for letter in self.message_text:
+            try:
+                ciphered_text = ciphered_text + self.shift_dict[letter]
+            except:
+                ciphered_text = ciphered_text + letter
+                continue        
+        self.message_text = ciphered_text
+        return ciphered_text
         
 
 class PlaintextMessage(Message):
