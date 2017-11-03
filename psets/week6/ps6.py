@@ -218,7 +218,7 @@ class CiphertextMessage(Message):
             self.message_text (string, determined by input text)
             self.valid_words (list, determined using helper function load_words)
         '''
-        pass #delete this line and replace with your code here
+        Message.__init__(self, text)
 
     def decrypt_message(self):
         '''
@@ -236,19 +236,45 @@ class CiphertextMessage(Message):
         Returns: a tuple of the best shift value used to decrypt the message
         and the decrypted message text using that shift value
         '''
-        pass #delete this line and replace with your code here
+        original_shift = 0
+        original = self.message_text.split(' ')
+        deciphered = []
+        
+        for dummy_shift in range(26):
+            for self.message_text in original:
+                self.apply_shift(dummy_shift)
+                if is_word(self.valid_words, self.message_text):
+                    original_shift = (dummy_shift) 
+                    deciphered.append(self.message_text)
+                else:
+                    self.apply_shift(26 - dummy_shift)            
+                    dummy_shift += 1
+                    break
+            if original_shift != 0:
+                break
+        return original_shift, ' '.join(deciphered)
+##Example test case (Message)
+#hello = Message('hello')
+#hello.build_shift_dict(2)
+#print(hello.apply_shift(2))    
 
-#Example test case (Message)
-hello = Message('hello')
-hello.build_shift_dict(2)
-print(hello.apply_shift(2))    
-
-#Example test case (PlaintextMessage)
-plaintext = PlaintextMessage('hello', 2)
-print('Expected Output: jgnnq')
-print('Actual Output:', plaintext.get_message_text_encrypted())
+##Example test case (PlaintextMessage)
+#plaintext = PlaintextMessage('hello', 2)
+#print('Expected Output: jgnnq')
+#print('Actual Output:', plaintext.get_message_text_encrypted())
     
 #Example test case (CiphertextMessage)
-ciphertext = CiphertextMessage('jgnnq')
-print('Expected Output:', (24, 'hello'))
+ciphertext = CiphertextMessage('Jkjoajoa sknzo: wllkejp abbaypera xkkg oqna bhwc oqllknp xnexanu pdqjzan xqnop oyeajya bqjju opwpa hebp saagzwu nkqjz')
+print('Actual Output:', ciphertext.decrypt_message())
+print()
+ciphertext = CiphertextMessage('Ijinzinz rjmyn: jiz mzgvoz piodg hvxcdizmt jxxvndji dioziy kmjipixdvodji vhjibno rviyzm cvmy nfdi vyqziopmz ncvyjr mzio nrdib')
+print('Actual Output:', ciphertext.decrypt_message())
+print()
+ciphertext = CiphertextMessage('Klkpbkpb tloap: nrxoq dofka tfob cbiiltpefm qfob yrqqbo cxk zlknrbolo ybd objbjybo tfia pbicfpe pqobkdqebk pelrq jljbkqxov qtfpq xilkb qxhb yxoobi clojbo ziboh mxoq molsfab hfqzebk cxfo pqobqze rm obmixzb pfibkq zibsbo pelob qelok qlb fjjbafxqb cbiilt')
+print('Actual Output:', ciphertext.decrypt_message())
+print()
+ciphertext = CiphertextMessage('Klkpbkpb tloap: fjfqxqflk ibcq tbfde qebxqofzxi prjjbo')
+print('Actual Output:', ciphertext.decrypt_message())
+print()
+ciphertext = CiphertextMessage('Ijinzinz rjmyn: dhdovodji gzao rzdbc oczvomdxvg nphhzm')
 print('Actual Output:', ciphertext.decrypt_message())
