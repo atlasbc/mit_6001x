@@ -140,7 +140,6 @@ class Message(object):
             except:
                 ciphered_text = ciphered_text + letter
                 continue        
-        self.message_text = ciphered_text
         return ciphered_text
         
 
@@ -236,23 +235,29 @@ class CiphertextMessage(Message):
         Returns: a tuple of the best shift value used to decrypt the message
         and the decrypted message text using that shift value
         '''
-        original_shift = 0
-        original = self.message_text.split(' ')
-        deciphered = []
+        best_shift = 0
+        deciphered_message = ""
+        max_word = 0
         
-        for dummy_shift in range(26):
-            for self.message_text in original:
-                self.apply_shift(dummy_shift)
-                if is_word(self.valid_words, self.message_text):
-                    original_shift = (dummy_shift) 
-                    deciphered.append(self.message_text)
-                else:
-                    self.apply_shift(26 - dummy_shift)            
-                    dummy_shift += 1
-                    break
-            if original_shift != 0:
-                break
-        return original_shift, ' '.join(deciphered)
+        for i in range(26):
+            word_count = 0
+            deciphered = self.apply_shift(i)
+            message = deciphered.split(' ')
+            for word in message:
+                if is_word(self.valid_words, word):
+                    word_count += 1
+            if word_count > max_word:
+                max_word = word_count                                                         
+                best_shift = i
+                deciphered_message = deciphered    
+        return best_shift, deciphered_message 
+            
+#def decrypt_story():
+#    message = get_story_string()
+#    story = CiphertextMessage(message)
+#    return story.decrypt_message()
+#
+#print(decrypt_story())
 ##Example test case (Message)
 #hello = Message('hello')
 #hello.build_shift_dict(2)
